@@ -16,7 +16,7 @@ const socialLinks = [
 const PublicFooter = () => {
   return (
     <footer className='container flex justify-between py-4 border-t'>
-      <p>© {new Date().getFullYear()} BLING Medals</p>
+      <p>© {new Date().getFullYear()} BLING Club</p>
 
       <ul className='flex gap-2'>
         {socialLinks.map((item, index) => (

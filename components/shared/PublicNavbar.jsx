@@ -13,8 +13,8 @@ const navLinks = [
     link: '/challenges'
   },
   {
-    name: 'Contact Us',
-    link: '/contact-us'
+    name: 'FAQs',
+    link: '/faqs'
   }
 ]
 
@@ -32,7 +32,7 @@ const PublicNavbar = () => {
           </li>
         ))}
 
-        <Link href='#'>
+        <Link href='/sign-in'>
           <Button>
             Sign In
           </Button>
