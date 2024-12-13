@@ -14,8 +14,9 @@ import { useState } from "react"
 import Image from "next/image"
 import { Button } from "../ui/button"
 import { Menu } from "lucide-react"
+import { NAVLINKS } from "@/utils/constants"
 
-const MobileMenu = ({ navLinks }) => {
+const MobileMenu = () => {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
@@ -37,7 +38,7 @@ const MobileMenu = ({ navLinks }) => {
 
           {/* links */}
           <ul className="flex flex-col items-center gap-8">
-            {navLinks.map((link, index) => (
+            {NAVLINKS.map((link, index) => (
               <li key={link + index}>
                 <Link onClick={() => setMenuOpen(false)} className="text-xl font-medium hover:text-primary transition-all duration-300" href={link.link}>{link.name}</Link>
               </li>

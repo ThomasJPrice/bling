@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import localFont from 'next/font/local'
 
@@ -18,6 +19,8 @@ export default function RootLayout({ children }) {
         className={`${satoshi.className}`}
       >
         {children}
+
+        <Toaster />
       </body>
     </html>
   );

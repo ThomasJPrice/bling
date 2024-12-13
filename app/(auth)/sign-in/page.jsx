@@ -1,37 +1,29 @@
-'use client';
+import { checkSignedIn } from '@/actions/login';
+import LoginCard from '@/components/shared/LoginCard';
+import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
-import { useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+export const metadata = {
+  title: 'Log back in | BLING'
+}
 
-export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+export default async function SignIn(props) {
+  const searchParams = await props.searchParams
 
-  const supabase = createClient()
+  const signedIn = await checkSignedIn()
 
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) setError(error.message);
-  };
+  if (signedIn) redirect(`${searchParams.redirect_url || '/'}`)
 
   return (
-    <form onSubmit={handleSignIn}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Sign In</button>
-      {error && <p>{error}</p>}
-    </form>
+    <div className='min-h-screen relative w-full flex justify-center items-center'>
+      <LoginCard mode='signin' redirectUrl={searchParams.redirect_url} />
+
+      <div className='absolute -z-10 top-0 left-0 w-full min-h-screen bg-black/20'></div>
+      <Image src='/login-image.png' alt='Woman running looking happy' fill className='object-cover -z-20 absolute w-full min-h-screen top-0 left-0' />
+    </div>
   );
 }
+
+// to do 
+// - exchange code for session on sign in with google (new api route and redirects)
+// - payments
