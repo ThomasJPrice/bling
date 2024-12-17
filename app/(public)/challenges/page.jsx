@@ -63,7 +63,7 @@ const ChallengeCard = ({ challenge }) => {
 }
 
 const ChallengesPage = async () => {
-  const challenges = await client.fetch(`*[_type == 'challenge']`)
+  const challenges = await client.fetch(`*[_type == 'challenge'] | order(openFrom)`)
 
   return (
     <div className='container mb-8'>
@@ -72,9 +72,9 @@ const ChallengesPage = async () => {
         <p className='text-center max-w-[600px]'>Whether you're a new runner or a seasons pro, we have challenges for everyone. All of our quality medals are unique to a particular event and retired when the numbers are reached so you will be one of only a handful of owners of your particular medal.</p>
       </div>
 
-      <div className='mt-8 md:mt-16'>
+      <div className='mt-8'>
         {challenges ? (
-          <div>
+          <div className='flex flex-col gap-8'>
             {challenges.map((item, index) => (
               <ChallengeCard challenge={item} key={item + index} />
             ))}

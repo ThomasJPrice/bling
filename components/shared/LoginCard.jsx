@@ -13,7 +13,7 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import { FcGoogle } from "react-icons/fc"
 
-export default function LoginCard({ mode, redirectUrl }) {
+export default function LoginCard({ mode, redirectUrl, sessionId }) {
   const [termsChecked, setTermsChecked] = useState(false)
   const [marketingConsent, setMarketingConsent] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -24,14 +24,14 @@ export default function LoginCard({ mode, redirectUrl }) {
       return
     }
 
-    await SignInWithGoogle(marketingConsent, redirectUrl, mode)
+    await SignInWithGoogle(marketingConsent, redirectUrl, mode, sessionId)
   }
 
   const handleSignWithPassword = async (formData) => {
     setLoading(true)
 
     if (mode === 'signup') {
-      const error = await SignUpWithPassword(formData, redirectUrl)
+      const error = await SignUpWithPassword(formData, redirectUrl, sessionId)
       if (error === 'user_already_exists') {
         toast.error('Email already exists. Try signing in!')
       } else if (error) {
@@ -129,14 +129,14 @@ export default function LoginCard({ mode, redirectUrl }) {
           {mode === 'signup' ? (
             <div className="text-center text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Link href="/sign-in" className="underline">
+              <Link href={`/sign-in${(redirectUrl && redirectUrl !== '/link-strava') ? `?next=${redirectUrl}` : ''}`} className="underline">
                 Sign in
               </Link>
             </div>
           ) : (
             <div className="text-center text-sm text-muted-foreground">
               Need an account?{" "}
-              <Link href="/sign-up" className="underline">
+              <Link href={`/sign-up${redirectUrl ? `?next=${redirectUrl}` : '?next=/link-strava'}`} className="underline">
                 Sign up
               </Link>
             </div>

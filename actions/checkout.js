@@ -17,9 +17,8 @@ export async function createCheckoutSession(item) {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/canceled`,
-      customer_email: user ? user.email : null,
+      success_url: user ? `${process.env.NEXT_PUBLIC_URL}/api/stripe/checkout-success` : `${process.env.NEXT_PUBLIC_URL}/sign-up?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_URL}/`,
       line_items: [{
         price_data: {
           currency: 'gbp',
@@ -49,7 +48,10 @@ export async function createCheckoutSession(item) {
             type: 'fixed_amount'
           }
         }
-      ]
+      ],
+      metadata: {
+        slug: item.slug,
+      }
     })
 
     redirectPath = session.url
@@ -62,4 +64,51 @@ export async function createCheckoutSession(item) {
     }
   }
 
+}
+
+
+export async function linkNewOrder(user, sessionId) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+  const supabase = await createClient()
+
+  if (!user || !sessionId) {
+    return
+  }
+
+  const session = await stripe.checkout.sessions.retrieve(sessionId)
+
+  if (!session) {
+    return
+  }
+
+  const { data: currentUserData, error: currentUserError } = await supabase.from('users').select().eq('id', user.id).single()
+
+  if (currentUserError) {
+    console.log(currentUserError);
+    return
+  }
+
+  var userChallenges = currentUserData.challenges
+
+  if (userChallenges.find((value) => value.stripe_id === session.id)) {
+    console.log('Already added purchase.');
+    return
+  }
+
+  userChallenges.push({
+    slug: session.metadata.slug,
+    status: 'purchased',
+    submission: null,
+    purchaseDate: session.created,
+    stripe_id: session.id
+  })
+
+  const { data: insertedChallengeData, error: insertedChallengeError } = await supabase.from('users').update({
+    challenges: userChallenges
+  }).eq('id', user.id)
+
+  if (insertedChallengeError) {
+    console.log(insertedChallengeError);
+    return
+  }
 }

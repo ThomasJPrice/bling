@@ -10,6 +10,20 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
+export async function generateMetadata(props) {
+  const params = await props.params
+
+  const details = await client.fetch(`*[_type == 'challenge' && slug.current == '${params.slug}'][0]`)
+
+  return {
+    title: `${details.seo.metaTitle}`,
+    description: `${details.seo.metaDescription}`,
+    openGraph: {
+      images: [`${urlFor(details.seo.ogImage).url()}`]
+    }
+  }
+}
+
 const ChallengeDetails = async (props) => {
   const params = await props.params
 
@@ -28,7 +42,9 @@ const ChallengeDetails = async (props) => {
     <div className='container'>
       <div className='flex gap-4 flex-col md:flex-row'>
         <div className='flex-1 relative overflow-hidden'>
-          <div className='absolute bg-primary text-background font-medium text-lg py-1 -rotate-45 w-[200px] -left-12 top-8 text-center'>Only {initialValues.qty_left} left!</div>
+          {initialValues.qty_left < 70 && (
+            <div className='absolute bg-primary text-background font-medium text-lg py-1 -rotate-45 w-[200px] -left-12 top-8 text-center'>Only {initialValues.qty_left} left!</div>
+          )}
 
           <Image src={urlFor(details.image).url()} width={800} height={800} alt={`Medal for ${details.name}`} className='rounded-[0.2rem] object-cover' />
         </div>
@@ -38,7 +54,7 @@ const ChallengeDetails = async (props) => {
             <h2 className='text-3xl font-bold text-primary'>{details.title}</h2>
             <p className='text-xl'>£{details.entryFee}</p>
 
-            <div className='mt-2'>
+            <div className='mt-2 flex flex-col gap-1'>
               <PortableText value={details.description} />
             </div>
 

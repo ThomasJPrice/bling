@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { linkNewOrder } from "./checkout";
 
 // formData comes in as 
 // - email
@@ -25,10 +26,10 @@ export async function SignInWithPassword(formData, redirectUrl) {
   redirect(`${process.env.NEXT_PUBLIC_URL}${redirectUrl || '/'}`)
 }
 
-export async function SignInWithGoogle(marketingConsent, redirectUrl, mode) {
+export async function SignInWithGoogle(marketingConsent, redirectUrl, mode, sessionId) {
   const supabase = await createClient()
 
-  const redirectTo = mode === 'signup' ? `${process.env.NEXT_PUBLIC_URL}/api/google/callback?redirect_url=${redirectUrl || '/'}&marketing=${marketingConsent}&mode=signup` : `${process.env.NEXT_PUBLIC_URL}/api/google/callback?redirect_url=${redirectUrl || '/'}&mode=signup`
+  const redirectTo = mode === 'signup' ? `${process.env.NEXT_PUBLIC_URL}/api/google/callback?redirect_url=${redirectUrl || '/'}&marketing=${marketingConsent}&mode=signup${sessionId ? `&sessionId=${sessionId}` : ''}` : `${process.env.NEXT_PUBLIC_URL}/api/google/callback?redirect_url=${redirectUrl || '/'}&mode=signin${sessionId ? `&sessionId=${sessionId}` : ''}`
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
@@ -44,7 +45,7 @@ export async function SignInWithGoogle(marketingConsent, redirectUrl, mode) {
   if (error) return error
 }
 
-export async function SignUpWithPassword(formData, redirectUrl) {
+export async function SignUpWithPassword(formData, redirectUrl, sessionId) {
   const supabase = await createClient()
 
   const { data, error } = await supabase.auth.signUp({
@@ -59,8 +60,20 @@ export async function SignUpWithPassword(formData, redirectUrl) {
     }
   })
 
+  // send welcome email + resend marketing
+
   if (error) {
     return error.code
+  }
+
+  const { data: userData, error: userError} = await supabase.from('users').insert({
+    id: data.user.id,
+    name: `${formData.get('firstName')} ${formData.get('lastName')}`,
+  }).select().single()
+
+  if (sessionId) {
+    console.log(userData, sessionId);
+    await linkNewOrder(userData, sessionId)
   }
 
   redirect(`${process.env.NEXT_PUBLIC_URL}${redirectUrl || '/'}`)

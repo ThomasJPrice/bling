@@ -12,18 +12,14 @@ export default async function SignIn(props) {
 
   const signedIn = await checkSignedIn()
 
-  if (signedIn) redirect(`${searchParams.redirect_url || '/'}`)
+  if (signedIn) redirect(`${searchParams.next || '/'}`)
 
   return (
     <div className='min-h-screen relative w-full flex justify-center items-center'>
-      <LoginCard mode='signin' redirectUrl={searchParams.redirect_url} />
+      <LoginCard mode='signin' redirectUrl={searchParams.next} />
 
       <div className='absolute -z-10 top-0 left-0 w-full min-h-screen bg-black/20'></div>
       <Image src='/login-image.png' alt='Woman running looking happy' fill className='object-cover -z-20 absolute w-full min-h-screen top-0 left-0' />
     </div>
   );
 }
-
-// to do 
-// - exchange code for session on sign in with google (new api route and redirects)
-// - payments

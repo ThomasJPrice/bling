@@ -1,3 +1,4 @@
+import { linkNewOrder } from "@/actions/checkout";
 import { createClient } from "@/utils/supabase/server";
 import { SignedIn } from "@/utils/wrappers";
 
@@ -19,7 +20,6 @@ export default function Home() {
           <button type="submit">Sign out</button>
         </form>
       </SignedIn>
-
     </div>
   );
 }
