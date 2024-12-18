@@ -43,7 +43,11 @@ const ChallengeDetails = async (props) => {
       <div className='flex gap-4 flex-col md:flex-row'>
         <div className='flex-1 relative overflow-hidden'>
           {initialValues.qty_left < 70 && (
-            <div className='absolute bg-primary text-background font-medium text-lg py-1 -rotate-45 w-[200px] -left-12 top-8 text-center'>Only {initialValues.qty_left} left!</div>
+            initialValues.qty_left === 0 ? (
+              <div className='absolute bg-primary text-background font-medium text-lg py-1 -rotate-45 w-[200px] -left-12 top-8 text-center'>Sold out!</div>
+            ) : (
+              <div className='absolute bg-primary text-background font-medium text-lg py-1 -rotate-45 w-[200px] -left-12 top-8 text-center'>Only {initialValues.qty_left} left!</div>
+            )
           )}
 
           <Image src={urlFor(details.image).url()} width={800} height={800} alt={`Medal for ${details.name}`} className='rounded-[0.2rem] object-cover' />
@@ -84,7 +88,11 @@ const ChallengeDetails = async (props) => {
             </div>
           </div>
 
-          <CheckoutButton btnClasses={'mt-4'} btnText={'Buy Now'} item={details} />
+          {initialValues.qty_left > 0 ? (
+            <CheckoutButton btnClasses={'mt-4'} btnText={'Buy Now'} item={details} />
+          ) : (
+            <Button className='mt-4 w-full' disabled>Sold out!</Button>
+          )}
         </div>
       </div>
 

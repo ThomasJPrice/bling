@@ -14,10 +14,13 @@ export async function createCheckoutSession(item) {
 
   let redirectPath = null
 
+  console.log(user.id);
+  
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      success_url: user ? `${process.env.NEXT_PUBLIC_URL}/api/stripe/checkout-success` : `${process.env.NEXT_PUBLIC_URL}/sign-up?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: user ? `${process.env.NEXT_PUBLIC_URL}/api/stripe/checkout-success?session_id={CHECKOUT_SESSION_ID}` : `${process.env.NEXT_PUBLIC_URL}/sign-up?session_id={CHECKOUT_SESSION_ID}&next=/link-strava`,
       cancel_url: `${process.env.NEXT_PUBLIC_URL}/`,
       line_items: [{
         price_data: {
@@ -26,7 +29,8 @@ export async function createCheckoutSession(item) {
             name: item.title,
             images: [item.image],
             metadata: {
-              slug: item.slug
+              slug: item.slug,
+              user_id: user ? user.id : null
             }
           },
           unit_amount: Math.round(item.price * 100)

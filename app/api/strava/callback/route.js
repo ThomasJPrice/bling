@@ -50,6 +50,7 @@ export async function GET(request) {
       strava_access_token: data.access_token,
       strava_refresh_token: data.refresh_token,
       strava_expires_at: data.expires_at,
+      sex: data.athlete.sex
     }).eq('id', user.id)
 
     if (supabaseError) {

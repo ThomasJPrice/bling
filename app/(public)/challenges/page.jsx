@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { client } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
+import { createClient } from '@/utils/supabase/server'
 import { Calendar, Clock, MapPin, Medal, Ruler } from 'lucide-react'
 import { PortableText } from 'next-sanity'
 import Image from 'next/image'
@@ -12,11 +13,20 @@ export const metadata = {
   description: "Whether you're a new runner or a seasons pro, we have challenges for everyone. All of our quality medals are unique to a particular event and retired when the numbers are reached so you will be one of only a handful of owners of your particular medal."
 }
 
-const ChallengeCard = ({ challenge }) => {
+const ChallengeCard = async ({ challenge }) => {
+  const supabase = await createClient()
+  const { data: initialValues } = await supabase.from('challenges').select().eq('slug', challenge.slug.current).single()
+
+  if (!initialValues) return
+
   return (
     <div className='w-full bg-secondary p-4 rounded-[0.3rem] flex flex-col md:flex-row gap-4'>
-      <div className='flex-1'>
-        <Image src={urlFor(challenge.image).url()} width={800} height={800} alt={`Medal for ${challenge.title}`} className='rounded-[0.2rem] object-cover' />
+      <div className='flex-1 relative overflow-hidden'>
+        {initialValues.qty_left < 70 && (
+          <div className='absolute bg-primary text-background font-medium text-lg py-1 -rotate-45 w-[200px] -left-12 top-8 text-center'>Only {initialValues.qty_left} left!</div>
+        )}
+
+        <Image src={urlFor(challenge.image).url()} width={800} height={800} alt={`Medal for ${challenge.name}`} className='rounded-[0.2rem] object-cover' />
       </div>
 
       <div className='flex-1 flex flex-col justify-between'>
