@@ -1,7 +1,9 @@
 import ChallengeCard from '@/components/shared/ChallengeCard'
+import HelpMenu from '@/components/shared/HelpMenu'
 import PublicFooter from '@/components/shared/PublicFooter'
 import PublicNavbar from '@/components/shared/PublicNavbar'
 import { Button } from '@/components/ui/button'
+import { client } from '@/sanity/lib/client'
 import { createClient } from '@/utils/supabase/server'
 import { Cog, HelpCircle } from 'lucide-react'
 import Image from 'next/image'
@@ -20,17 +22,55 @@ const signOut = async () => {
   redirect('/')
 }
 
-const DashboardPage = async () => {
-  const supabase = await createClient()
+async function fetchChallenges() {
+  const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser()
-  const { data: userData, error: userDataError } = await supabase.from('users').select().eq('id', user.id).single()
+  const allChallenges = await client.fetch(`*[_type == 'challenge']`);
 
-  if (userDataError) {
-    console.log(userDataError);
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { challenges: userChallenges }, error: userChallengesError } = await supabase
+    .from('users')
+    .select('challenges')
+    .eq('id', user.id)
+    .single();
+
+  if (userChallengesError) {
+    console.log(userChallengesError);
   }
 
-  const challenges = userData.challenges
+  const activeChallenges = [];
+  const previousChallenges = [];
+
+  userChallenges.forEach(supabaseChallenge => {
+    const sanityChallenge = allChallenges.find(sanity => sanity.slug.current === supabaseChallenge.slug);
+    if (!sanityChallenge) return;
+
+    const endDate = new Date(supabaseChallenge.endDate * 1000);
+
+    const isActive = endDate > new Date() && supabaseChallenge.submission === null;
+
+    const challenge = {
+      supabase: supabaseChallenge,
+      sanity: sanityChallenge
+    };
+
+    if (isActive) {
+      activeChallenges.push(challenge);
+    } else {
+      previousChallenges.push(challenge);
+    }
+  });
+
+  return {
+    activeChallenges,
+    previousChallenges
+  };
+}
+
+
+
+const DashboardPage = async () => {
+  const { activeChallenges, previousChallenges } = await fetchChallenges()
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -45,9 +85,7 @@ const DashboardPage = async () => {
             <Cog className='w-5 h-5' />
           </button>
 
-          <button className='hover:text-primary transition-all duration-300'>
-            <HelpCircle className='w-5 h-5' />
-          </button>
+          <HelpMenu />
 
           <form action={signOut}>
             <Button type='submit' variant='secondary'>
@@ -57,16 +95,26 @@ const DashboardPage = async () => {
         </ul>
       </nav>
 
-      <main className='flex-grow container'>
+      <main className='flex-grow container mb-8'>
         <div className='max-w-[800px] w-full mx-auto'>
-          <h2 className='text-center text-3xl font-bold text-primary my-4 md:mb-4 md:mt-0'>My Challenges</h2>
+          <h2 className='text-center text-3xl font-bold text-primary my-4 md:mt-0'>My Challenges</h2>
 
-          <div>
+          <div className='mt-8'>
             <h3 className='text-center text-2xl font-bold text-primary'>Active Challenges</h3>
 
-            <div className='flex flex-col gap-4'>
-              {challenges.map((item, index) => (
-                <ChallengeCard challenge={item} key={item + index} />
+            <div className='flex flex-col gap-4 mt-4'>
+              {activeChallenges.map((item, index) => (
+                <ChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} active />
+              ))}
+            </div>
+          </div>
+
+          <div className='mt-8'>
+            <h3 className='text-center text-2xl font-bold text-primary'>Previous Challenges</h3>
+
+            <div className='flex flex-col gap-4 mt-4'>
+              {previousChallenges.map((item, index) => (
+                <ChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} />
               ))}
             </div>
           </div>

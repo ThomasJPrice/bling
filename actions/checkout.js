@@ -1,5 +1,7 @@
 'use server'
 
+import { getChallengeEndDate } from "@/lib/utils"
+import { client } from "@/sanity/lib/client"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import Stripe from "stripe"
@@ -13,9 +15,6 @@ export async function createCheckoutSession(item) {
   const { data: { user } } = await supabase.auth.getUser()
 
   let redirectPath = null
-
-  console.log(user.id);
-  
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -99,12 +98,25 @@ export async function linkNewOrder(user, sessionId) {
     return
   }
 
+  const sanityChallengeData = await client.fetch(`*[_type == 'challenge' && slug.current == $slug][0]`, { slug: session.metadata.slug })
+
+  if (!sanityChallengeData) {
+    console.log('No challenge found.');
+    return
+  }
+
+  const openFromDate = new Date(sanityChallengeData.openFrom)
+  const purchaseDate = new Date(session.created)
+  
+  const endDate = getChallengeEndDate(openFromDate, purchaseDate, sanityChallengeData.duration)
+
   userChallenges.push({
     slug: session.metadata.slug,
     status: 'purchased',
     submission: null,
     purchaseDate: session.created,
-    stripe_id: session.id
+    stripe_id: session.id,
+    endDate: endDate
   })
 
   const { data: insertedChallengeData, error: insertedChallengeError } = await supabase.from('users').update({

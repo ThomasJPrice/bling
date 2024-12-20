@@ -45,7 +45,7 @@ ${addressObject.country}`.replaceAll('null\n', '')
         name: session.shipping_details.name,
         address: address,
         challenge_slug: session.metadata.slug,
-        status: session.status
+        status: 'purchased'
       }
 
       // post row to google sheets

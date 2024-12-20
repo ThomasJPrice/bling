@@ -44,7 +44,8 @@ export async function insertNewOrder(data) {
           data.challenge,
           data.amount,
           data.status,
-          formattedDate
+          formattedDate,
+          data.stripe_id
         ],
       ],
     };
