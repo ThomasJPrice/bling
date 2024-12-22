@@ -64,3 +64,57 @@ export async function insertNewOrder(data) {
     return false;
   }
 }
+
+export async function updateOrderStatus(stripe_id) {
+  const client = await getGsCreds();
+
+  if (!client) {
+    console.error("Failed to initialize Google Sheets client");
+    return false;
+  }
+
+  try {
+    // Get all data from the sheet
+    const sheetData = await client.spreadsheets.values.get({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      range: 'Orders!A2:H', // Adjust the range as per your sheet
+    });
+
+    const rows = sheetData.data.values;
+
+    if (!rows || rows.length === 0) {
+      console.error("No data found in the sheet");
+      return false;
+    }
+
+    // Find the last row with the matching stripe_id
+    let targetRowIndex = -1;
+
+    for (let i = rows.length - 1; i >= 0; i--) {
+      if (rows[i][7] === stripe_id) { // Assuming Stripe ID is in column H (index 7)
+        targetRowIndex = i + 2; // Add 2 to account for header row and zero-based index
+        break;
+      }
+    }
+
+    if (targetRowIndex === -1) {
+      console.error("Stripe ID not found in the sheet");
+      return false;
+    }
+
+    // Update the status in the identified row
+    await client.spreadsheets.values.update({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      range: `Orders!F${targetRowIndex}`, // Assuming status is in column F
+      valueInputOption: 'RAW',
+      resource: {
+        values: [["submitted"]],
+      },
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    return false;
+  }
+}

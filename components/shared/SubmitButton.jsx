@@ -37,6 +37,7 @@ const SubmitButton = ({ challenge, challengeDetails, open }) => {
       }
     } else {
       toast.success('Run submitted! Watch out for a confirmation email headed your way!')
+      setIsSubmitted(true)
     }
 
     setIsLoading(false)

@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { linkNewOrder } from "./checkout";
+import { addToMailingList } from "./resend";
 
 // formData comes in as 
 // - email
@@ -60,10 +61,13 @@ export async function SignUpWithPassword(formData, redirectUrl, sessionId) {
     }
   })
 
-  // send welcome email + resend marketing
-
   if (error) {
     return error.code
+  }
+
+  // send welcome email + resend marketing
+  if (formData.get('marketing') === 'on') {
+    await addToMailingList(formData.get('email'), formData.get('firstName'), formData.get('lastName'))
   }
 
   const { data: userData, error: userError} = await supabase.from('users').insert({

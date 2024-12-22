@@ -45,6 +45,8 @@ export default function LoginCard({ mode, redirectUrl, sessionId }) {
         toast.error('An error occured. Please try again or contact us at support@blingclub.co.uk')
       }
     }
+
+    setLoading(false)
   }
 
   return (

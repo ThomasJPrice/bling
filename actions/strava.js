@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from "@/utils/supabase/server"
+import { updateOrderStatus } from "./sheets"
 
 export async function getStravaStatus() {
   const supabase = await createClient()
@@ -107,10 +108,7 @@ export async function submitRun({ distance, stripeId, endDate, startDate, slug }
   try {
     const { data: { user } } = await supabase.auth.getUser()
 
-    // const stravaData = await connectToStrava()
-    const stravaData = {
-      access_token: '4485b1dfe6ef555b751cc170d828cbf2da7985e3'
-    }
+    const stravaData = await connectToStrava()
 
     if (!stravaData) {
       return {
@@ -120,7 +118,7 @@ export async function submitRun({ distance, stripeId, endDate, startDate, slug }
     }
 
     const stravaRuns = await getStravaRuns(stravaData.access_token, startDate, endDate)
-    
+
     // verify if there is a run that matches the challenge
     const run = stravaRuns.find(run => run.distance >= distance * 1000)
     
@@ -132,18 +130,36 @@ export async function submitRun({ distance, stripeId, endDate, startDate, slug }
     }
 
     // submit the run    
-    const { error: supabaseSubmissionError } = await supabase.from('submissions').insert({
+    const { error: supabaseSubmissionError, data: supabaseSubmissionData } = await supabase.from('submissions').insert({
       user_id: user.id,
       challenge_slug: slug,
       run_id: run.id,
       distance: run.distance,
       run_date: run.start_date,
       stripe_id: stripeId
-    })
+    }).select().single()
 
     if (supabaseSubmissionError) {
-      console.log(supabaseSubmissionError);
-      
+      console.log(supabaseSubmissionError); 
+    }
+
+    // update the challenge submission
+    await updateOrderStatus(stripeId)
+
+    // update supabase user with challenge submission
+    const { data: userData } = await supabase.from('users').select().eq('id', user.id).single()
+
+    const userChallenges = userData.challenges
+    const challengeIndex = userChallenges.findIndex(challenge => challenge.stripe_id === stripeId)
+    userChallenges[challengeIndex].submission = supabaseSubmissionData.id
+    userChallenges[challengeIndex].status = 'submitted'
+
+    const { error: userUpdateError } = await supabase.from('users').update({
+      challenges: userChallenges,
+    }).eq('id', user.id)
+
+    if (userUpdateError) {
+      console.log(userUpdateError);
     }
 
     return {
