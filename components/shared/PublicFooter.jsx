@@ -1,14 +1,15 @@
-import { Facebook, Instagram } from 'lucide-react'
+import { Facebook,  } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import { FaFacebook, FaInstagram } from 'react-icons/fa'
 
 const socialLinks = [
   {
-    icon: Instagram,
+    icon: FaInstagram,
     link: 'https://instagram.com'
   },
   {
-    icon: Facebook,
+    icon: FaFacebook,
     link: 'https://facebook.com'
   },
 ]
