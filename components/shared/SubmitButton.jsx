@@ -6,6 +6,7 @@ import { LoaderCircle } from 'lucide-react'
 import { submitRun } from '@/actions/strava'
 import toast from 'react-hot-toast'
 import { getStartDate } from '@/lib/utils'
+import confetti from 'canvas-confetti'
 
 const SubmitButton = ({ challenge, challengeDetails, open }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -37,6 +38,11 @@ const SubmitButton = ({ challenge, challengeDetails, open }) => {
       }
     } else {
       toast.success('Run submitted! Watch out for a confirmation email headed your way!')
+      confetti({
+        particleCount: 100,
+        spread: 100,
+        origin: { y: 0.4 },
+      })
       setIsSubmitted(true)
     }
 

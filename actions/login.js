@@ -70,6 +70,20 @@ export async function SignUpWithPassword(formData, redirectUrl, sessionId) {
     await addToMailingList(formData.get('email'), formData.get('firstName'), formData.get('lastName'))
   }
 
+  // send welcome email
+  await fetch(`${process.env.NEXT_PUBLIC_URL}/api/send/sign-up`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      userData: {
+        email: formData.get('email'),
+        name: formData.get('firstName')
+      }
+    })
+  })
+
   const { data: userData, error: userError} = await supabase.from('users').insert({
     id: data.user.id,
     name: `${formData.get('firstName')} ${formData.get('lastName')}`,

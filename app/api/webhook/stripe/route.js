@@ -48,6 +48,19 @@ ${addressObject.country}`.replaceAll('null\n', '')
         status: 'purchased'
       }
 
+
+      // SEND CONFIRMATION EMAIL
+      await fetch(`${process.env.NEXT_PUBLIC_URL}/api/send/order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          orderData: data
+        })
+      })
+
+
       // post row to google sheets
       await insertNewOrder(data)
 

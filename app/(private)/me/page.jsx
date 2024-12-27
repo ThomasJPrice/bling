@@ -103,19 +103,27 @@ const DashboardPage = async () => {
             <h3 className='text-center text-2xl font-bold text-primary'>Active Challenges</h3>
 
             <div className='flex flex-col gap-4 mt-4'>
-              {activeChallenges.map((item, index) => (
-                <ChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} active />
-              ))}
+              {activeChallenges.length > 0 ? (
+                activeChallenges.map((item, index) => (
+                  <ChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} active />
+                ))
+              ) : (
+                <p className='text-center text-lg text-gray-500'>You have no active challenges</p>
+              )}
             </div>
           </div>
 
           <div className='mt-8'>
-            <h3 className='text-center text-2xl font-bold text-primary'>Previous Challenges</h3>
+            <h3 className='text-center text-2xl font-bold text-primary'>Passed Challenges</h3>
 
             <div className='flex flex-col gap-4 mt-4'>
-              {previousChallenges.map((item, index) => (
-                <ChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} />
-              ))}
+              {previousChallenges.length > 0 ? (
+                previousChallenges.map((item, index) => (
+                  <ChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} />
+                ))
+              ) : (
+                <p className='text-center text-lg text-gray-500'>You have no passed challenges</p>
+              )}
             </div>
           </div>
         </div>

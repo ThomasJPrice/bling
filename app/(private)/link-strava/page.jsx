@@ -6,6 +6,10 @@ import Link from "next/link"
 import { redirect } from "next/navigation";
 import { FaStrava } from "react-icons/fa";
 
+export const metadata = {
+  title: 'Link Strava | BLING'
+}
+
 const LinkStrava = async (props) => {
   const stravaStatus = await getStravaStatus()
 

@@ -1,4 +1,5 @@
 import { linkNewOrder } from "@/actions/checkout";
+import { addToMailingList } from "@/actions/resend";
 import { createClient } from "@/utils/supabase/server";
 
 export async function GET(request) {
@@ -26,6 +27,28 @@ export async function GET(request) {
   // Exchange the "code" for a session
   try {
     const { data: sessionData, error: sessionError } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (mode == 'signup') {
+      if (marketing) {
+        // add to mailing list
+        await addToMailingList(sessionData.user.email, sessionData.user.user_metadata.first_name ? sessionData.user.user_metadata.first_name : sessionData.user.user_metadata.name)
+      }
+
+      // send welcome email
+      await fetch(`${process.env.NEXT_PUBLIC_URL}/api/send/sign-up`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userData: {
+            email: sessionData.user.email,
+            name: sessionData.user.user_metadata.first_name ? sessionData.user.user_metadata.first_name : sessionData.user.user_metadata.name
+          }
+        })
+      })
+    }
+
 
     if (sessionError) {
       console.log('Error exchanging code for session:', sessionError);
