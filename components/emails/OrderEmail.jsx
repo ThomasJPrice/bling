@@ -30,7 +30,7 @@ const OrderEmail = ({ orderData }) => {
             <span className='font-semibold'>Amount:</span> £{orderData.amount}
           </p>
           <p className='text-sm my-0'>
-            <span className='font-semibold'>Shipping address:</span> {orderData.address}
+            <span className='font-semibold'>Shipping address:</span> {orderData.address.replaceAll('\n', ', ')}
           </p>
         </div>
 

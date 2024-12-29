@@ -3,6 +3,8 @@
 import { createClient } from "@/utils/supabase/server"
 import { updateOrderStatus } from "./sheets"
 
+import { createClient as createServiceClient } from '@supabase/supabase-js'
+
 export async function getStravaStatus() {
   const supabase = await createClient()
 
@@ -66,7 +68,7 @@ export async function connectToStrava() {
     })
 
     const data = await response.json()
-    
+
     if (data.access_token) {
       await supabase.from('users').update({
         strava_access_token: data.access_token,
@@ -121,7 +123,7 @@ export async function submitRun({ distance, stripeId, endDate, startDate, slug }
 
     // verify if there is a run that matches the challenge
     const run = stravaRuns.find(run => run.distance >= distance * 1000)
-    
+
     if (!run) {
       return {
         ok: false,
@@ -140,7 +142,7 @@ export async function submitRun({ distance, stripeId, endDate, startDate, slug }
     }).select().single()
 
     if (supabaseSubmissionError) {
-      console.log(supabaseSubmissionError); 
+      console.log(supabaseSubmissionError);
     }
 
     // update the challenge submission
@@ -161,6 +163,22 @@ export async function submitRun({ distance, stripeId, endDate, startDate, slug }
     if (userUpdateError) {
       console.log(userUpdateError);
     }
+
+    // send emails here
+    const supabaseService = createServiceClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
+
+    const { data: orderData } = await supabaseService.from('orders').select().eq('stripe_id', stripeId).single()
+
+    await fetch(`${process.env.NEXT_PUBLIC_URL}/api/send/submission`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        orderData: orderData,
+        submissionData: supabaseSubmissionData
+      })
+    })
 
     return {
       ok: true

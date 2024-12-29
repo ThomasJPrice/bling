@@ -26,13 +26,16 @@ const EmailWrapper = ({ children, internal }) => {
                 <Link href='https://blingclub.co.uk'>
                   <Img src="https://bling-lilac.vercel.app/main-logo.png" alt="BLING Logo" className="w-[120px] mx-auto" />
                 </Link>
-                <Link href='https://blingclub.co.uk' className='text-center mx-auto text-[#fdfcf7]'>
-                  <Text className='text-lg'>blingclub.co.uk</Text>
-                </Link>
+
                 {!internal && (
-                  <Text className="text-sm text-center">
-                    You are receiving this email because you interacted with BLING Club
-                  </Text>
+                  <>
+                  <Link href='https://blingclub.co.uk' className='text-center mx-auto text-[#fdfcf7]'>
+                    <Text className='text-lg'>BLINGClub.co.uk</Text>
+                  </Link>
+                    <Text className="text-sm text-center">
+                      You are receiving this email because you interacted with BLING Club
+                    </Text>
+                  </>
                 )}
               </div>
             </div>
