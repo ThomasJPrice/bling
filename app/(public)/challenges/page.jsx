@@ -13,7 +13,7 @@ export const metadata = {
   description: "Whether you're a new runner or a seasons pro, we have challenges for everyone. All of our quality medals are unique to a particular event and retired when the numbers are reached so you will be one of only a handful of owners of your particular medal."
 }
 
-const ChallengeCard = async ({ challenge }) => {
+export const GeneralChallengeCard = async ({ challenge }) => {
   const supabase = await createClient()
   const { data: initialValues } = await supabase.from('challenges').select().eq('slug', challenge.slug.current).single()
 
@@ -86,7 +86,7 @@ const ChallengesPage = async () => {
         {challenges ? (
           <div className='flex flex-col gap-8'>
             {challenges.map((item, index) => (
-              <ChallengeCard challenge={item} key={item + index} />
+              <GeneralChallengeCard challenge={item} key={item + index} />
             ))}
           </div>
         ) : (

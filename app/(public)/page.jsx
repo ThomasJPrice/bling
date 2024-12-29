@@ -1,25 +1,20 @@
-import { linkNewOrder } from "@/actions/checkout";
-import { createClient } from "@/utils/supabase/server";
-import { SignedIn } from "@/utils/wrappers";
+import AboutSection from "@/components/sections/AboutSection";
+import FeaturedChallenge from "@/components/sections/FeaturedChallenge";
+import HeroSection from "@/components/sections/HeroSection";
+import HowItWorksSection from "@/components/sections/HowItWorksSection";
 
 export const metadata = {
-  title: 'Home | BLING'
-}
-
-const signOut = async () => {
-  'use server'
-  const supabase = await createClient()
-  await supabase.auth.signOut()
+  title: 'Home | BLING',
+  description: 'Take on exciting fitness challenges, track your progress with Strava, and earn exclusive medals for your achievements. Start your journey today!'
 }
 
 export default function Home() {
   return (
-    <div className="">
-      <SignedIn>
-        <form action={signOut}>
-          <button type="submit">Sign out</button>
-        </form>
-      </SignedIn>
+    <div className="flex flex-col gap-12 mb-12">
+      <HeroSection />
+      <AboutSection />
+      <HowItWorksSection />
+      <FeaturedChallenge />
     </div>
   );
 }

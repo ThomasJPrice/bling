@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server"
 import { updateOrderStatus } from "./sheets"
 
 import { createClient as createServiceClient } from '@supabase/supabase-js'
+import { redirect } from "next/navigation"
 
 export async function getStravaStatus() {
   const supabase = await createClient()
@@ -34,6 +35,24 @@ export async function getStravaStatus() {
       status: false
     }
   }
+}
+
+export async function disconnectStrava() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  await supabase.from('users').update({
+    strava_access_token: null,
+    strava_refresh_token: null,
+    strava_expires_at: null
+  }).eq('id', user.id)
+
+  return true
+}
+
+export async function redirectToConnection() {
+  redirect(`https://www.strava.com/oauth/authorize?client_id=${process.env.STRAVA_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_URL}/api/strava/callback&response_type=code&scope=read,read_all,activity:read&approval_prompt=force`)
 }
 
 export async function connectToStrava() {

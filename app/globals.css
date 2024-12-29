@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   :root {
     --background: 0 5% 4%; /* #0B0A0A */
@@ -61,4 +65,8 @@
 .link-hover:hover:after {
   left: 0;
   width: 100%;
+}
+
+.hero-divider {
+  
 }

@@ -2,6 +2,7 @@ import ChallengeCard from '@/components/shared/ChallengeCard'
 import HelpMenu from '@/components/shared/HelpMenu'
 import PublicFooter from '@/components/shared/PublicFooter'
 import PublicNavbar from '@/components/shared/PublicNavbar'
+import SettingsModal from '@/components/shared/SettingsModal'
 import { Button } from '@/components/ui/button'
 import { client } from '@/sanity/lib/client'
 import { createClient } from '@/utils/supabase/server'
@@ -81,9 +82,7 @@ const DashboardPage = async () => {
         </Link>
 
         <ul className='flex items-center gap-4'>
-          <button className='hover:text-primary transition-all duration-300'>
-            <Cog className='w-5 h-5' />
-          </button>
+          <SettingsModal />
 
           <HelpMenu />
 
