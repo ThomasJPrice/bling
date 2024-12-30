@@ -1,59 +1,73 @@
-import { client } from "@/sanity/lib/client"
-import { urlFor } from "@/sanity/lib/image"
-import { Calendar, Clock, MapPin } from "lucide-react"
+import { createClient } from "@/utils/supabase/server"
+import { Calendar, Clock, MapPin, Medal } from "lucide-react"
+import { PortableText } from "next-sanity"
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "../ui/button"
-import { daysUntilDeadline, getChallengeEndDate } from "@/lib/utils"
-import RequirementsCard from "./RequirementsCard"
-import SubmitButton from "./SubmitButton"
+import { urlFor } from "@/sanity/lib/image"
+import ChallengeStatus from "./ChallengeStatus"
 
-const ChallengeCard = async ({ challenge, challengeDetails, active }) => {
-  const open = new Date(challengeDetails.openFrom) <= new Date() && new Date() < new Date(challenge.endDate * 1000)
+export const ChallengeCard = async ({ challenge }) => {
+  const supabase = await createClient()
+  const { data: initialValues } = await supabase.from('challenges').select().eq('slug', challenge.slug.current).single()
 
-  const daysLeft = daysUntilDeadline(challenge.endDate)
+  if (!initialValues) return
 
   return (
-    <div className='w-full bg-secondary p-2 rounded-[0.3rem] flex flex-col md:flex-row gap-4'>
-      <div className="md:w-1/5">
-        <Image src={urlFor(challengeDetails.image).url()} alt={`Image for ${challengeDetails.title}`} width={800} height={800} className="rounded-[0.2rem]" />
+    <div className='w-full bg-secondary p-4 rounded-[0.3rem] flex flex-col md:flex-row gap-4'>
+      <div className='flex-1 relative overflow-hidden'>
+        {initialValues.qty_left < 70 && (
+          initialValues.qty_left === 0 ? (
+            <div className='absolute bg-primary text-background font-medium text-lg py-1 -rotate-45 w-[200px] -left-12 top-8 text-center'>Sold out!</div>
+          ) : (
+            <div className='absolute bg-primary text-background font-medium text-lg py-1 -rotate-45 w-[200px] -left-12 top-8 text-center'>Only {initialValues.qty_left} left!</div>
+          )
+        )}
+        
+        <Image src={urlFor(challenge.image).url()} width={800} height={800} alt={`Medal for ${challenge.name}`} className='rounded-[0.2rem] object-cover' />
       </div>
 
-      <div className="flex-1 flex flex-col justify-between">
+      <div className='flex-1 flex flex-col justify-between'>
         <div>
-          <h4 className="text-xl text-primary font-bold">{challengeDetails.title}</h4>
+          <ChallengeStatus challenge={challenge} />
 
-          <div className="flex flex-col md:flex-row gap-2 md:gap-4 my-2">
+          <h3 className='text-2xl mt-2 text-primary font-bold uppercase italic'>{challenge.title}</h3>
+          <p className='text-lg'>£{challenge.entryFee}</p>
+
+          <div className='mt-2 line-clamp-4'>
+            <PortableText value={challenge.description} />
+          </div>
+
+          <div className='mt-4 flex flex-col gap-2'>
+            {/* distance */}
             <div className='flex items-center gap-2'>
               <MapPin className='w-5 h-5 text-muted-foreground' />
-              <p>{challengeDetails.distance}km</p>
+              <p>{challenge.distance}km</p>
+            </div>
+
+            {/* duration */}
+            <div className='flex items-center gap-2'>
+              <Clock className='w-5 h-5 text-muted-foreground' />
+              <p>{challenge.duration.quantity} {challenge.duration.unit}</p>
             </div>
 
             {/* from */}
             <div className='flex items-center gap-2'>
               <Calendar className='w-5 h-5 text-muted-foreground' />
-              <p>From {new Date(challengeDetails.openFrom).toLocaleDateString('en-UK', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+              <p>From {new Date(challenge.openFrom).toLocaleDateString('en-UK', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
 
-            {/* duration */}
-            {open && (
-              <div className='flex items-center gap-2'>
-                <Clock className='w-5 h-5 text-muted-foreground' />
-                <p>{daysLeft} days left</p>
-              </div>
-            )}
+            <div className='flex items-center gap-2'>
+              <Medal className='w-5 h-5 text-muted-foreground' />
+              <p>Only {challenge.totalStock} places available</p>
+            </div>
           </div>
-
-          <RequirementsCard requirements={challengeDetails.requirements} />
         </div>
 
-        {active ? (
-          <SubmitButton challenge={challenge} challengeDetails={challengeDetails} open={open} />
-        ) : (
-          <Button disabled>{challenge.submission ? 'Submitted!' : 'Challenge Expired'}</Button>
-        )}
+        <Link className='mt-4' href={`/challenges/${challenge.slug.current}`}>
+          <Button className='w-full'>Find out more</Button>
+        </Link>
       </div>
     </div>
   )
 }
-
-export default ChallengeCard

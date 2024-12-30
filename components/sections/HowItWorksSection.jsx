@@ -18,12 +18,12 @@ const steps = [
   }
 ]
 
-const HowItWorksSection = () => {
+const HowItWorksSection = ({ small }) => {
   return (
     <section id='how-it-works' className='container'>
       <div className='flex flex-col items-center'>
         <div className='w-max'>
-          <h2 className='text-3xl font-bold text-primary italic uppercase'>How it works</h2>
+          <h2 className={`${small ? 'text-2xl' : 'text-3xl'} font-bold text-primary italic uppercase`}>How it works</h2>
           <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
         </div>
 

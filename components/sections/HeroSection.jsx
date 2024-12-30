@@ -35,3 +35,7 @@ const HeroSection = () => {
 }
 
 export default HeroSection
+
+// NEXT
+// refactored challenge card, with live/pre order dependant on Date, not sanity name
+// about page

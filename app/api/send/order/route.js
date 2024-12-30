@@ -22,7 +22,7 @@ export async function POST(req) {
     // internal
     const { data: internalData, error: internalError } = await resend.emails.send({
       from: 'BLING Club <updates@email.blingclub.co.uk>',
-      to: 'thomasjprice2@gmail.com',
+      to: 'hello@blingclub.co.uk',
       subject: `New order for ${orderData.challenge}! 🎉`,
       react: InternalOrderEmail({ orderData: orderData }),
       replyTo: 'hello@blingclub.co.uk'
@@ -36,13 +36,3 @@ export async function POST(req) {
     return Response.json({ error: 'Failed to send email' }, { status: 500 })
   }
 }
-
-// NEXT
-// order confirmation internal email
-
-// run submission to user emails
-// run submission internal email
-
-// order shipped email design 
-
-// settings modal

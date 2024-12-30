@@ -44,8 +44,6 @@ const LinkStrava = async (props) => {
               <Image src='/strava-scopes.png' width={351} height={389} alt="Tick both boxes in the Strava UI" className="w-full" />
             </div>
           )}
-
-          {/* <Link href={`https://www.strava.com/oauth/authorize?client_id=${process.env.STRAVA_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_URL}/api/strava/callback&response_type=code&scope=read,read_all,activity:read${error ? '&approval_prompt=force' : ''}`} className="!mt-4"> */}
           <Link href={`https://www.strava.com/oauth/authorize?client_id=${process.env.STRAVA_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_URL}/api/strava/callback&response_type=code&scope=read,read_all,activity:read&approval_prompt=force`} className="!mt-4">
             <Button className='w-full bg-[#FC4C02] hover:bg-[#FC4C02]/90 text-foreground'><FaStrava /> Connect Strava</Button>
           </Link>

@@ -1,7 +1,7 @@
-import { GeneralChallengeCard } from "@/app/(public)/challenges/page"
 import { client } from "@/sanity/lib/client"
 import Link from "next/link"
 import { Button } from "../ui/button"
+import { ChallengeCard } from "../shared/ChallengeCard"
 
 const featuredSlug = '5k-challenge'
 
@@ -18,7 +18,7 @@ const FeaturedChallenge = async () => {
         <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
       </div>
 
-      <GeneralChallengeCard challenge={challengeDetails} />
+      <ChallengeCard challenge={challengeDetails} />
 
       <Link href='/challenges'>
       <Button variant='secondary'>View all Challenges</Button>

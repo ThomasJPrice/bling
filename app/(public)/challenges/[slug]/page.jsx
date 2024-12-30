@@ -1,4 +1,7 @@
 import { createCheckoutSession } from '@/actions/checkout'
+import HowItWorksSection from '@/components/sections/HowItWorksSection'
+import ReqAndShipping from '@/components/sections/ReqAndShipping'
+import ChallengeStatus from '@/components/shared/ChallengeStatus'
 import CheckoutButton from '@/components/shared/CheckoutButton'
 import { Button } from '@/components/ui/button'
 import { client } from '@/sanity/lib/client'
@@ -16,10 +19,10 @@ export async function generateMetadata(props) {
   const details = await client.fetch(`*[_type == 'challenge' && slug.current == '${params.slug}'][0]`)
 
   return {
-    title: `${details.seo.metaTitle}`,
-    description: `${details.seo.metaDescription}`,
+    title: `${details.title} | BLING`,
+    description: `${details.shortDesc}`,
     openGraph: {
-      images: [`${urlFor(details.seo.ogImage).url()}`]
+      images: [`${urlFor(details.image).url()}`]
     }
   }
 }
@@ -39,7 +42,7 @@ const ChallengeDetails = async (props) => {
   if (!initialValues) redirect('/404')
 
   return (
-    <div className='container'>
+    <div className='container mb-12'>
       <div className='flex gap-4 flex-col md:flex-row'>
         <div className='flex-1 relative overflow-hidden'>
           {initialValues.qty_left < 70 && (
@@ -55,7 +58,9 @@ const ChallengeDetails = async (props) => {
 
         <div className='flex-1 flex flex-col justify-between'>
           <div>
-            <h2 className='text-3xl font-bold text-primary'>{details.title}</h2>
+            <ChallengeStatus challenge={details} />
+
+            <h2 className='text-3xl font-bold text-primary mt-2 uppercase italic'>{details.title}</h2>
             <p className='text-xl'>£{details.entryFee}</p>
 
             <div className='mt-2 flex flex-col gap-1'>
@@ -97,11 +102,10 @@ const ChallengeDetails = async (props) => {
       </div>
 
       {/* everything else */}
-      <div>
+      <div className='mt-12 flex flex-col gap-12'>
         {/* how it works */}
-        <div>
-          <h3 className='font-bold text-primary text-2xl'>How it works</h3>
-        </div>
+        <HowItWorksSection small />
+        <ReqAndShipping challenge={details} />
       </div>
     </div>
   )

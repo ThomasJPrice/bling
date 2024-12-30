@@ -94,29 +94,6 @@ export const challengeSchema = defineType({
       title: 'Total Stock',
       type: 'number',
       description: 'Total available stock for this challenge'
-    }),
-    defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'metaTitle',
-          title: 'Meta Title',
-          type: 'string'
-        }),
-        defineField({
-          name: 'metaDescription',
-          title: 'Meta Description',
-          type: 'string'
-        }),
-        defineField({
-          name: 'ogImage',
-          title: 'Open Graph Image',
-          type: 'image',
-          options: { hotspot: true }
-        })
-      ]
     })
   ]
 })

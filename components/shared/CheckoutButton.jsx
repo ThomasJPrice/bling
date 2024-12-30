@@ -2,14 +2,18 @@
 
 import { createClient } from '@/utils/supabase/client'
 import { Button } from '../ui/button'
-import toast, { LoaderIcon } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { createCheckoutSession } from '@/actions/checkout'
 import { urlFor } from '@/sanity/lib/image'
 import { useState } from 'react'
 import { LoaderCircle } from 'lucide-react'
+import { getChallengeEndDate } from '@/lib/utils'
 
 const CheckoutButton = ({ btnClasses, btnText, item }) => {
   const [isLoading, setIsLoading] = useState(false)
+
+  const endDate = new Date(getChallengeEndDate(item.openFrom, 0, item.duration) * 1000)
+  const passed = new Date() > endDate
 
   async function handleCheckout() {
     if (isLoading) return
@@ -43,11 +47,11 @@ const CheckoutButton = ({ btnClasses, btnText, item }) => {
   }
 
   return (
-    <Button disabled={isLoading} onClick={handleCheckout} className={btnClasses}>
+    <Button disabled={isLoading || passed} onClick={handleCheckout} className={btnClasses}>
       {isLoading ? (
         <LoaderCircle className='animate-spin' />
       ) : (
-        <span>{btnText}</span>
+        <span>{passed ? 'This challenge has passed!' : btnText}</span>
       )}
     </Button>
   )

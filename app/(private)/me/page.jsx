@@ -1,5 +1,5 @@
-import ChallengeCard from '@/components/shared/ChallengeCard'
 import HelpMenu from '@/components/shared/HelpMenu'
+import MeChallengeCard from '@/components/shared/MeChallengeCard'
 import PublicFooter from '@/components/shared/PublicFooter'
 import PublicNavbar from '@/components/shared/PublicNavbar'
 import SettingsModal from '@/components/shared/SettingsModal'
@@ -96,7 +96,10 @@ const DashboardPage = async () => {
 
       <main className='flex-grow container mb-8'>
         <div className='max-w-[800px] w-full mx-auto'>
-          <h2 className='text-center text-3xl font-bold text-primary my-4 md:mt-0'>My Challenges</h2>
+          <div className='w-max mb-4 mx-auto'>
+            <h2 className='text-3xl font-bold text-primary italic uppercase'>My Challenges</h2>
+            <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
+          </div>
 
           <div className='mt-8'>
             <h3 className='text-center text-2xl font-bold text-primary'>Active Challenges</h3>
@@ -104,7 +107,7 @@ const DashboardPage = async () => {
             <div className='flex flex-col gap-4 mt-4'>
               {activeChallenges.length > 0 ? (
                 activeChallenges.map((item, index) => (
-                  <ChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} active />
+                  <MeChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} active />
                 ))
               ) : (
                 <p className='text-center text-lg text-gray-500'>You have no active challenges</p>
@@ -118,7 +121,7 @@ const DashboardPage = async () => {
             <div className='flex flex-col gap-4 mt-4'>
               {previousChallenges.length > 0 ? (
                 previousChallenges.map((item, index) => (
-                  <ChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} />
+                  <MeChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} />
                 ))
               ) : (
                 <p className='text-center text-lg text-gray-500'>You have no passed challenges</p>

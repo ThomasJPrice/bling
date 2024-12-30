@@ -20,7 +20,7 @@ export default function LoginCard({ mode, redirectUrl, sessionId }) {
 
   const handleSignInWithGoogle = async () => {
     if (!termsChecked && mode === 'signup') {
-      toast.error('Please agree to the Terms of Service and Privacy Policy')
+      toast.error('Please agree to the Terms of Service')
       return
     }
 
@@ -104,7 +104,7 @@ export default function LoginCard({ mode, redirectUrl, sessionId }) {
                     checked={termsChecked}
                     onCheckedChange={(e) => setTermsChecked(e)} />
                   <label htmlFor="terms" className="text-sm text-muted-foreground">
-                    I agree to the <Link href="/terms-of-service" className="underline" target="_blank">Terms of Service</Link> and <Link href="/privacy-policy" className="underline" target="_blank">Privacy Policy</Link> <span className="text-red-600">*</span>
+                    I agree to the <Link href="/terms" className="underline" target="_blank">Terms of Service</Link> <span className="text-red-600">*</span>
                   </label>
                 </div>
               </div>
