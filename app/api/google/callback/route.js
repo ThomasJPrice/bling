@@ -12,9 +12,6 @@ export async function GET(request) {
   const mode = searchParams.get('mode')
   const sessionId = searchParams.get('sessionId')
 
-  console.log('Called with code:', code, 'redirect_url:', redirect_url, 'marketing:', marketing, 'mode:', mode, 'sessionId:', sessionId);
-  
-
   if (!mode) {
     console.log('No method passed');
     return Response.redirect(`${process.env.NEXT_PUBLIC_URL}/`)

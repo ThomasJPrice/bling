@@ -32,17 +32,12 @@ export async function SignInWithGoogle(marketingConsent, redirectUrl, mode, sess
 
   const redirectTo = mode === 'signup' ? `${process.env.NEXT_PUBLIC_URL}/api/google/callback?redirect_url=${redirectUrl || '/'}&marketing=${marketingConsent}&mode=signup${sessionId ? `&sessionId=${sessionId}` : ''}` : `${process.env.NEXT_PUBLIC_URL}/api/google/callback?redirect_url=${redirectUrl || '/'}&mode=signin${sessionId ? `&sessionId=${sessionId}` : ''}`
 
-  console.log(redirectTo);
-
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
       redirectTo: redirectTo
     }
   })
-
-  console.log(data, error);
-  
 
   if (data.url) {
     redirect(data.url)

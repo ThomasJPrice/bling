@@ -24,9 +24,6 @@ export default function LoginCard({ mode, redirectUrl, sessionId }) {
       return
     }
 
-    console.log('Signing in with Google, ', marketingConsent, redirectUrl, mode, sessionId);
-    
-
     await SignInWithGoogle(marketingConsent, redirectUrl, mode, sessionId)
   }
 
