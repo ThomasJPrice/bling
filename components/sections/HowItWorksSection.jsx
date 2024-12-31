@@ -9,12 +9,12 @@ const steps = [
   {
     title: 'Track your Progress',
     icon: FaStrava,
-    description: 'Train and complete the challenge at your own pace and track your final run with Strava.'
+    description: 'Complete the challenge at your own pace - wherever and whenever you want - and track your run with Strava.'
   },
   {
     title: 'Earn your Medal',
     icon: FaMedal,
-    description: 'Complete the challenge and claim your exclusive medal to celebrate your success.'
+    description: 'Complete the challenge and receive your exclusive medal to celebrate your success.'
   }
 ]
 
@@ -22,8 +22,8 @@ const HowItWorksSection = ({ small }) => {
   return (
     <section id='how-it-works' className='container'>
       <div className='flex flex-col items-center'>
-        <div className='w-max'>
-          <h2 className={`${small ? 'text-2xl' : 'text-3xl'} font-bold text-primary italic uppercase`}>How it works</h2>
+        <div className='md:w-max'>
+          <h2 className={`${small ? 'text-2xl' : 'text-3xl'} font-bold text-center text-primary italic uppercase`}>How it works</h2>
           <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
         </div>
 

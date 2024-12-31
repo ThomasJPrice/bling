@@ -7,7 +7,7 @@ const AboutSection = () => {
   return (
     <section id='about' className='container flex flex-col md:flex-row gap-8 items-center'>
       <div className='flex-1 flex flex-col gap-6'>
-        <div className='w-max'>
+        <div className='md:w-max'>
           <h2 className='text-3xl font-bold text-primary italic uppercase'>About Us</h2>
           <div className='w-1/2 h-[1px] bg-primary mt-2'></div>
         </div>

@@ -7,7 +7,7 @@ const TermsOfService = () => {
 
   return (
     <div className='container mb-12'>
-      <div className='w-max mb-4 mx-auto'>
+      <div className='md:w-max mb-4 mx-auto'>
         <h2 className='text-3xl font-bold text-primary italic uppercase'>Terms of Service</h2>
         <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
       </div>

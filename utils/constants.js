@@ -2,6 +2,10 @@ import Link from "next/link"
 
 export const NAVLINKS = [
   {
+    name: 'Home',
+    link: '/'
+  },
+  {
     name: 'About Us',
     link: '/about'
   },

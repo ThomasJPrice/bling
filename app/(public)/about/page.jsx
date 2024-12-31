@@ -12,8 +12,8 @@ const AboutUsPage = () => {
     <div className='container mb-12'>
       <Image src={'/email-image.png'} width={1437.5} height={360} alt='About Us image' className='w-full object-contain mb-4' />
 
-      <div className='w-max mb-4 mx-auto'>
-        <h2 className='text-3xl font-bold text-primary italic uppercase'>About Us</h2>
+      <div className='md:w-max mb-4 mx-auto'>
+        <h2 className='text-3xl font-bold text-primary italic uppercase text-center'>About Us</h2>
         <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
       </div>
 

@@ -6,8 +6,8 @@ const HeroSection = () => {
   return (
     <section id="hero" className="container min-h-[70dvh] group relative grid place-items-center">
       <div className="text-center max-w-[600px] w-full mx-auto flex flex-col justify-center items-center gap-4 px-2">
-        <h1 className="text-[50px] md:text-[64px] leading-[60px] md:leading-[72px] font-[800] italic text-primary">Your Next Challenge Awaits with BLING Club</h1>
-        <p className="">Take on exciting fitness challenges, track your progress with Strava, and earn exclusive medals for your achievements. Start your journey today!</p>
+        <h1 className="text-[50px] md:text-[64px] leading-[60px] md:leading-[72px] font-[800] italic text-primary">Your Next Medal Awaits with BLING Club</h1>
+        <p className="">Take on exciting running challenges, track your progress with Strava, and earn exclusive medals for your achievements. Start your journey today!</p>
 
         <div className="flex gap-4">
           <Link href='/challenges'>

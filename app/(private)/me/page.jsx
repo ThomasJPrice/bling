@@ -96,7 +96,7 @@ const DashboardPage = async () => {
 
       <main className='flex-grow container mb-8'>
         <div className='max-w-[800px] w-full mx-auto'>
-          <div className='w-max mb-4 mx-auto'>
+          <div className='md:w-max mb-4 mx-auto'>
             <h2 className='text-3xl font-bold text-primary italic uppercase'>My Challenges</h2>
             <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
           </div>

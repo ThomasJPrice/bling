@@ -42,19 +42,19 @@ export const ChallengeCard = async ({ challenge }) => {
             {/* distance */}
             <div className='flex items-center gap-2'>
               <MapPin className='w-5 h-5 text-muted-foreground' />
-              <p>{challenge.distance}km</p>
+              <p>{challenge.distance}km challenge</p>
             </div>
 
             {/* duration */}
             <div className='flex items-center gap-2'>
               <Clock className='w-5 h-5 text-muted-foreground' />
-              <p>{challenge.duration.quantity} {challenge.duration.unit}</p>
+              <p>You'll have {challenge.duration.quantity} {challenge.duration.unit} to complete the challenge</p>
             </div>
 
             {/* from */}
             <div className='flex items-center gap-2'>
               <Calendar className='w-5 h-5 text-muted-foreground' />
-              <p>From {new Date(challenge.openFrom).toLocaleDateString('en-UK', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+              <p>The challenge starts from {new Date(challenge.openFrom).toLocaleDateString('en-UK', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
 
             <div className='flex items-center gap-2'>

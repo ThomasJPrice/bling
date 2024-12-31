@@ -28,7 +28,7 @@ const ChallengesPage = async () => {
   return (
     <div className='container mb-8'>
       <div className='flex flex-col items-center'>
-        <div className='w-max mb-4'>
+        <div className='md:w-max mb-4'>
           <h2 className='text-3xl font-bold text-primary italic uppercase'>Our Challenges</h2>
           <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
         </div>

@@ -46,7 +46,7 @@ const MobileMenu = () => {
           </ul>
         </div>
 
-        <Link href='#'>
+        <Link href='/sign-in'>
           <Button className='w-full' onClick={() => setMenuOpen(false)}>Sign In</Button>
         </Link>
       </SheetContent>

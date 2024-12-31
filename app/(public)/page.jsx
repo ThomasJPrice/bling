@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-12 mb-12">
       <HeroSection />
-      <AboutSection />
+      {/* <AboutSection /> */}
       <HowItWorksSection />
       <FeaturedChallenge />
     </div>
