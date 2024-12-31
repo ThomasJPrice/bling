@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BLING Medals (Ecommerce Store)
+An ecommerce store to buy virtual running events and receive medals for participation. Integrates with Strava API via OAuth to get all a user's logged runs and check eligibility.
+## Features
 
-## Getting Started
+- Integration with Strava API for easy validation of runs
+- Stripe payments
+- Supabase Auth
+- Resend emails for transactional and marketing emails
+- Full home, about, challenges and details as well as FAQs page for information
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- NextJS 15
+- Tailwind CSS
+- Strava API
+- Stripe
+- shadcn/ui
+- Supabase (and auth)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Home Page
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+![Home Page](https://cloud-ftr6q2u7n-hack-club-bot.vercel.app/0bling-lilac.vercel.app_.png)
 
-## Learn More
+### Challenge Details Page
 
-To learn more about Next.js, take a look at the following resources:
+![Challenge Details Page](https://cloud-fzd8nemnw-hack-club-bot.vercel.app/0bling-lilac.vercel.app___1_.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Dashboard Page
+![Dashboard Page](https://cloud-joxi65lwb-hack-club-bot.vercel.app/0bling-lilac.vercel.app___2_.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
