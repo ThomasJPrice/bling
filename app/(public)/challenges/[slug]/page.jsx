@@ -94,7 +94,11 @@ const ChallengeDetails = async (props) => {
           </div>
 
           {initialValues.qty_left > 0 ? (
-            <CheckoutButton btnClasses={'mt-4'} btnText={'Buy Now'} item={details} />
+            details.available ? (
+              <CheckoutButton btnClasses={'mt-4'} btnText={'Buy Now'} item={details} />
+            ) : (
+              <Button className='mt-4 w-full' disabled>Coming soon!</Button>
+            )
           ) : (
             <Button className='mt-4 w-full' disabled>Sold out!</Button>
           )}

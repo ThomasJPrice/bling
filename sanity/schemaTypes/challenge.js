@@ -33,6 +33,11 @@ export const challengeSchema = defineType({
       type: 'datetime'
     }),
     defineField({
+      name: 'available',
+      title: 'Available to buy?',
+      type: 'boolean',
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',

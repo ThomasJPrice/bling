@@ -6,6 +6,10 @@ import {
 } from "@/components/ui/accordion"
 import { FAQS } from "@/utils/constants"
 
+export const metadata = {
+  title: 'FAQs | BLING',
+  description: 'Frequently asked questions about BLING virtual medals.'
+}
 
 const FAQsPage = () => {
   return (

@@ -1,10 +1,11 @@
 import { TERMS } from '@/utils/constants'
 import React from 'react'
 
-const TermsOfService = () => {
-  console.log(TERMS);
-  
+export const metadata = {
+  title: 'Terms of Service | BLING',
+}
 
+const TermsOfService = () => {
   return (
     <div className='container mb-12'>
       <div className='md:w-max mb-4 mx-auto'>
