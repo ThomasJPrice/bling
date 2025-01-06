@@ -227,3 +227,113 @@ The Site is not intended for individuals under the age of 18 .
 5.10 Contact us 
 For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by email at hello@blingclub.co.uk 
 `
+
+export const PRIVACY = `Welcome to BLING Medals! Protecting your privacy and personal data is important to us. This Privacy Policy explains how we collect, use, and share your information, as well as your rights regarding your data.
+
+1. Who We Are
+BLING Medals is operated by BLING Medals, located in Bedfordshire, UK.
+
+If you have any questions or concerns about this Privacy Policy or your data, you can contact us at:
+📧 Email: hello@blingmedals.co.uk
+
+2. Information We Collect
+We collect personal data when you use our website, sign up for an account, link your Strava account, or make a purchase. Below is a breakdown of the data we collect:
+
+Account Information
+When you create an account, we collect the following information:
+
+First Name
+Last Name
+Email Address
+Marketing Consent (optional)
+If you sign in via Google OAuth, we collect any information that Google provides as part of your profile.
+
+Strava Information
+When you link your Strava account, we may collect the following information (if provided on your Strava profile):
+
+Gender
+City and Country
+We also store challenge-related data, such as:
+
+Run Distance
+Strava Run ID
+Date of Run
+Shipping and Payment Information
+When you make a purchase, we collect your shipping address and, if provided, your billing address.
+
+All payment processing is securely handled by Stripe. We do not store or process your payment card details.
+
+Cookies and Analytics
+We use the following tools to improve our website and provide a better user experience:
+
+Umami Analytics: A privacy-friendly tool that tracks website usage without storing personal information.
+Session Cookies: Used for authentication via Supabase to keep you logged in.
+3. How We Use Your Information
+We use your information to:
+
+Create and manage your account
+Process orders and send medals
+Track your challenge progress
+Send marketing and transactional emails
+Improve our website through analytics
+4. Who We Share Your Information With
+We do not sell your personal data to third parties. However, we share data with the following services to operate BLING Medals:
+
+Service	Purpose	Location
+Supabase	Authentication and database	UK
+Stripe	Payment processing	Global (EU Compliant)
+Strava	Challenge tracking	Global
+Umami	Website analytics	EU
+Resend	Marketing and transactional emails	Global
+We ensure that all third-party providers we work with are GDPR-compliant.
+
+5. Cookies and Tracking
+We use the following cookies on our website:
+
+Session Cookies for authentication (via Supabase).
+Umami Analytics to track website usage without collecting personal information.
+We do not use third-party advertising cookies or intrusive tracking mechanisms.
+
+6. How Long We Keep Your Data
+We retain your data until you request account deletion.
+
+If you want to delete your account or request that your data be removed, please email us at hello@blingmedals.co.uk.
+
+Once your account is deleted, all associated data will be permanently removed from our systems.
+
+7. Your Rights
+As a user, you have the following rights regarding your personal data:
+✅ Access: You can request a copy of the data we hold about you.
+✅ Correction: You can update your personal information at any time.
+✅ Deletion: You can request that your data be deleted by emailing hello@blingmedals.co.uk.
+✅ Withdraw Consent: You can unsubscribe from marketing emails at any time by clicking the unsubscribe link at the bottom of our emails.
+✅ Data Portability: You can request that your data be provided in a portable format.
+
+8. Data Security
+We take data security seriously. We implement the following measures to protect your information:
+
+Passwords are securely encrypted using Supabase Auth.
+Payment information is processed securely via Stripe.
+We use HTTPS to encrypt all data transmitted between your browser and our website.
+In the event of a data breach, we will notify affected users in accordance with applicable laws.
+
+9. Data Transfers
+We primarily store and process your data within the UK and EU.
+Our hosting provider, Vercel, and authentication service, Supabase, both comply with GDPR regulations.
+
+10. Marketing Communications
+We use Resend to send marketing and transactional emails.
+
+You can opt-in to receive marketing emails during the sign-up process. You can also unsubscribe at any time by clicking the unsubscribe link at the bottom of our emails.
+
+11. Age Restrictions
+Our website is not intended for children under the age of 13. If you are under 13, please do not use our service.
+
+12. Contact Us
+If you have any questions about this Privacy Policy or want to exercise your rights, please contact us at:
+📧 Email: hello@blingmedals.co.uk
+
+13. Changes to This Privacy Policy
+We may update this Privacy Policy from time to time. We will notify users of significant changes via email or through our website.
+
+The latest version will always be available at blingmedals.co.uk/privacy.`
