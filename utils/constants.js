@@ -228,13 +228,13 @@ The Site is not intended for individuals under the age of 18 .
 For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by email at hello@blingclub.co.uk 
 `
 
-export const PRIVACY = `Welcome to BLING Medals! Protecting your privacy and personal data is important to us. This Privacy Policy explains how we collect, use, and share your information, as well as your rights regarding your data.
+export const PRIVACY = `Welcome to BLING Club! Protecting your privacy and personal data is important to us. This Privacy Policy explains how we collect, use, and share your information, as well as your rights regarding your data.
 
 1. Who We Are
-BLING Medals is operated by BLING Medals, located in Bedfordshire, UK.
+BLING Club is operated by BLING Club, located in Bedfordshire, UK.
 
 If you have any questions or concerns about this Privacy Policy or your data, you can contact us at:
-📧 Email: hello@blingmedals.co.uk
+📧 Email: hello@blingclub.co.uk
 
 2. Information We Collect
 We collect personal data when you use our website, sign up for an account, link your Strava account, or make a purchase. Below is a breakdown of the data we collect:
@@ -277,14 +277,14 @@ Track your challenge progress
 Send marketing and transactional emails
 Improve our website through analytics
 4. Who We Share Your Information With
-We do not sell your personal data to third parties. However, we share data with the following services to operate BLING Medals:
+We do not sell your personal data to third parties. However, we share data with the following services to operate BLING Club:
 
-Service	Purpose	Location
-Supabase	Authentication and database	UK
-Stripe	Payment processing	Global (EU Compliant)
-Strava	Challenge tracking	Global
-Umami	Website analytics	EU
-Resend	Marketing and transactional emails	Global
+- Service	Purpose	Location
+- Supabase	Authentication and database	UK
+- Stripe	Payment processing	Global (EU Compliant)
+- Strava	Challenge tracking	Global
+- Umami	Website analytics	EU
+- Resend	Marketing and transactional emails	Global
 We ensure that all third-party providers we work with are GDPR-compliant.
 
 5. Cookies and Tracking
@@ -297,7 +297,7 @@ We do not use third-party advertising cookies or intrusive tracking mechanisms.
 6. How Long We Keep Your Data
 We retain your data until you request account deletion.
 
-If you want to delete your account or request that your data be removed, please email us at hello@blingmedals.co.uk.
+If you want to delete your account or request that your data be removed, please email us at hello@blingclub.co.uk.
 
 Once your account is deleted, all associated data will be permanently removed from our systems.
 
@@ -305,7 +305,7 @@ Once your account is deleted, all associated data will be permanently removed fr
 As a user, you have the following rights regarding your personal data:
 ✅ Access: You can request a copy of the data we hold about you.
 ✅ Correction: You can update your personal information at any time.
-✅ Deletion: You can request that your data be deleted by emailing hello@blingmedals.co.uk.
+✅ Deletion: You can request that your data be deleted by emailing hello@blingclub.co.uk.
 ✅ Withdraw Consent: You can unsubscribe from marketing emails at any time by clicking the unsubscribe link at the bottom of our emails.
 ✅ Data Portability: You can request that your data be provided in a portable format.
 
@@ -331,9 +331,9 @@ Our website is not intended for children under the age of 13. If you are under 1
 
 12. Contact Us
 If you have any questions about this Privacy Policy or want to exercise your rights, please contact us at:
-📧 Email: hello@blingmedals.co.uk
+📧 Email: hello@blingclub.co.uk
 
 13. Changes to This Privacy Policy
 We may update this Privacy Policy from time to time. We will notify users of significant changes via email or through our website.
 
-The latest version will always be available at blingmedals.co.uk/privacy.`
+The latest version will always be available at blingclub.co.uk/privacy.`
