@@ -14,7 +14,7 @@ const steps = [
   {
     title: 'Earn your Medal',
     icon: FaMedal,
-    description: 'Complete the challenge and receive your exclusive medal to celebrate your success.'
+    description: 'Complete the challenge and receive your exclusive medal in the post to recognise your success.'
   }
 ]
 
