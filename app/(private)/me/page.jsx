@@ -1,16 +1,17 @@
-import HelpMenu from '@/components/shared/HelpMenu'
+import React, { Suspense } from 'react'
+import { Button } from '@/components/ui/button'
 import MeChallengeCard from '@/components/shared/MeChallengeCard'
+import MeChallengeCardSkeleton from '@/components/shared/MeChallengeCardSkeleton'
 import PublicFooter from '@/components/shared/PublicFooter'
 import PublicNavbar from '@/components/shared/PublicNavbar'
 import SettingsModal from '@/components/shared/SettingsModal'
-import { Button } from '@/components/ui/button'
+import HelpMenu from '@/components/shared/HelpMenu'
 import { client } from '@/sanity/lib/client'
 import { createClient } from '@/utils/supabase/server'
-import { Cog, HelpCircle } from 'lucide-react'
+import { redirect } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import React from 'react'
+import ChallengeListSkeleton from '@/components/shared/ChallengeListSkeleton'
 
 export const metadata = {
   title: 'My Challenges | BLING'
@@ -23,56 +24,74 @@ const signOut = async () => {
   redirect('/')
 }
 
-async function fetchChallenges() {
-  const supabase = await createClient();
+// Fetch challenges in a separate component
+async function ChallengeList() {
+  const supabase = await createClient()
 
-  const allChallenges = await client.fetch(`*[_type == 'challenge']`);
+  const allChallenges = await client.fetch(`*[_type == 'challenge']`)
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser()
   const { data: { challenges: userChallenges }, error: userChallengesError } = await supabase
     .from('users')
     .select('challenges')
     .eq('id', user.id)
-    .single();
+    .single()
 
   if (userChallengesError) {
-    console.log(userChallengesError);
+    console.log(userChallengesError)
   }
 
-  const activeChallenges = [];
-  const previousChallenges = [];
+  const activeChallenges = []
+  const previousChallenges = []
 
   userChallenges.forEach(supabaseChallenge => {
-    const sanityChallenge = allChallenges.find(sanity => sanity.slug.current === supabaseChallenge.slug);
-    if (!sanityChallenge) return;
+    const sanityChallenge = allChallenges.find(sanity => sanity.slug.current === supabaseChallenge.slug)
+    if (!sanityChallenge) return
 
-    const endDate = new Date(supabaseChallenge.endDate * 1000);
+    const endDate = new Date(supabaseChallenge.endDate * 1000)
+    const isActive = endDate > new Date() && supabaseChallenge.submission === null
 
-    const isActive = endDate > new Date() && supabaseChallenge.submission === null;
-
-    const challenge = {
-      supabase: supabaseChallenge,
-      sanity: sanityChallenge
-    };
+    const challenge = { supabase: supabaseChallenge, sanity: sanityChallenge }
 
     if (isActive) {
-      activeChallenges.push(challenge);
+      activeChallenges.push(challenge)
     } else {
-      previousChallenges.push(challenge);
+      previousChallenges.push(challenge)
     }
-  });
+  })
 
-  return {
-    activeChallenges,
-    previousChallenges
-  };
+  return (
+    <>
+      <div className='mt-8'>
+        <h3 className='text-center text-2xl font-bold text-primary'>Active Challenges</h3>
+        <div className='flex flex-col gap-4 mt-4'>
+          {activeChallenges.length > 0 ? (
+            activeChallenges.map((item, index) => (
+              <MeChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item.supabase.id} active />
+            ))
+          ) : (
+            <p className='text-center text-lg text-gray-500'>You have no active challenges</p>
+          )}
+        </div>
+      </div>
+
+      <div className='mt-8'>
+        <h3 className='text-center text-2xl font-bold text-primary'>Passed Challenges</h3>
+        <div className='flex flex-col gap-4 mt-4'>
+          {previousChallenges.length > 0 ? (
+            previousChallenges.map((item, index) => (
+              <MeChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item.supabase.id} />
+            ))
+          ) : (
+            <p className='text-center text-lg text-gray-500'>You have no passed challenges</p>
+          )}
+        </div>
+      </div>
+    </>
+  )
 }
 
-
-
-const DashboardPage = async () => {
-  const { activeChallenges, previousChallenges } = await fetchChallenges()
-
+const DashboardPage = () => {
   return (
     <div className='flex flex-col min-h-screen'>
       {/* dashboard navbar */}
@@ -83,9 +102,7 @@ const DashboardPage = async () => {
 
         <ul className='flex items-center gap-4'>
           <SettingsModal />
-
           <HelpMenu />
-
           <form action={signOut}>
             <Button type='submit' variant='secondary'>
               Sign Out
@@ -101,33 +118,10 @@ const DashboardPage = async () => {
             <div className='w-1/2 h-[1px] bg-primary mt-2 mx-auto' />
           </div>
 
-          <div className='mt-8'>
-            <h3 className='text-center text-2xl font-bold text-primary'>Active Challenges</h3>
-
-            <div className='flex flex-col gap-4 mt-4'>
-              {activeChallenges.length > 0 ? (
-                activeChallenges.map((item, index) => (
-                  <MeChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} active />
-                ))
-              ) : (
-                <p className='text-center text-lg text-gray-500'>You have no active challenges</p>
-              )}
-            </div>
-          </div>
-
-          <div className='mt-8'>
-            <h3 className='text-center text-2xl font-bold text-primary'>Passed Challenges</h3>
-
-            <div className='flex flex-col gap-4 mt-4'>
-              {previousChallenges.length > 0 ? (
-                previousChallenges.map((item, index) => (
-                  <MeChallengeCard challenge={item.supabase} challengeDetails={item.sanity} key={item + index} />
-                ))
-              ) : (
-                <p className='text-center text-lg text-gray-500'>You have no passed challenges</p>
-              )}
-            </div>
-          </div>
+          {/* Use Suspense to show loading UI while fetching challenges */}
+          <Suspense fallback={<ChallengeListSkeleton />}>
+            <ChallengeList />
+          </Suspense>
         </div>
       </main>
 

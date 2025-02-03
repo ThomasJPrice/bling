@@ -30,23 +30,26 @@ export default function LoginCard({ mode, redirectUrl, sessionId }) {
   const handleSignWithPassword = async (formData) => {
     setLoading(true)
 
-    if (mode === 'signup') {
-      const error = await SignUpWithPassword(formData, redirectUrl, sessionId)
-      if (error === 'user_already_exists') {
-        toast.error('Email already exists. Try signing in!')
-      } else if (error) {
-        toast.error('An error occured. Please try again or contact us at support@blingclub.co.uk')
+    try {
+      if (mode === 'signup') {
+        const error = await SignUpWithPassword(formData, redirectUrl, sessionId)
+        if (error === 'user_already_exists') {
+          toast.error('Email already exists. Try signing in!')
+        } else if (error) {
+          toast.error('An error occured. Please try again or contact us at support@blingclub.co.uk')
+        }
+      } else {
+        const error = await SignInWithPassword(formData, redirectUrl)
+        if (error === 'invalid_credentials') {
+          toast.error('Invalid email or password.')
+        } else if (error) {
+          toast.error('An error occured. Please try again or contact us at support@blingclub.co.uk')
+        }
       }
-    } else {
-      const error = await SignInWithPassword(formData, redirectUrl)
-      if (error === 'invalid_credentials') {
-        toast.error('Invalid email or password.')
-      } else if (error) {
-        toast.error('An error occured. Please try again or contact us at support@blingclub.co.uk')
-      }
+    } catch (error) {
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   return (
