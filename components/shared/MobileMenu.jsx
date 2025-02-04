@@ -27,7 +27,7 @@ const MobileMenu = () => {
 
       const { data: {user} } = await supabase.auth.getUser()
 
-      setUser(data)
+      setUser(user)
     }
 
     fetchUser()
