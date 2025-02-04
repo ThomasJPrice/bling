@@ -48,6 +48,19 @@
   }
 }
 
+/*width*/
+::-webkit-scrollbar {
+width:12px;
+}
+/*track*/
+::-webkit-scrollbar-track {
+background:rgb(11, 10, 10);
+}
+/*thumb*/
+::-webkit-scrollbar-thumb {
+background:rgb(212, 175, 53);
+}
+
 /* underline effect */
 .link-hover {
   position: relative;
@@ -65,8 +78,4 @@
 .link-hover:hover:after {
   left: 0;
   width: 100%;
-}
-
-.hero-divider {
-  
 }
