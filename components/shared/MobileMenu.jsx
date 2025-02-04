@@ -10,14 +10,29 @@ import {
 } from "@/components/ui/sheet"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { Button } from "../ui/button"
 import { Menu } from "lucide-react"
 import { NAVLINKS } from "@/utils/constants"
+import { createClient } from "@/utils/supabase/client"
 
 const MobileMenu = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    async function fetchUser() {
+      const supabase = createClient()
+
+      const { data: {user} } = await supabase.auth.getUser()
+
+      setUser(data)
+    }
+
+    fetchUser()
+  }, [])
+
 
   return (
     <Sheet open={menuOpen} onOpenChange={setMenuOpen} className='lg:hidden'>
@@ -46,9 +61,19 @@ const MobileMenu = () => {
           </ul>
         </div>
 
-        <Link href='/sign-in'>
-          <Button className='w-full' onClick={() => setMenuOpen(false)}>Sign In</Button>
-        </Link>
+        {user ? (
+          <Link href='/me'>
+            <Button className='w-full'>
+              My Challenges
+            </Button>
+          </Link>
+        ) : (
+          <Link href='/sign-in'>
+            <Button className='w-full'>
+              Sign In
+            </Button>
+          </Link>
+        )}
       </SheetContent>
     </Sheet>
   )
