@@ -109,8 +109,7 @@ export async function connectToStrava() {
 }
 
 export async function getStravaRuns(access_token, startDate, endDate) {
-  // const query = `https://www.strava.com/api/v3/athlete/activities?before=${endDate}&after=${startDate}`
-  const query = `https://www.strava.com/api/v3/athlete/activities?before=1734718390&after=1733681306&type=Run`
+  const query = `https://www.strava.com/api/v3/athlete/activities?before=${endDate}&after=${startDate}`
 
   const response = await fetch(query, {
     headers: {
