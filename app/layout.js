@@ -15,7 +15,7 @@ export const metadata = {
     description: "Take on exciting fitness challenges, track your progress with Strava, and earn exclusive medals for your achievements. Start your journey today!",
     images: [
       {
-        url: "https://bling.run/hero-image.png",
+        url: "https://www.blingclub.co.uk/hero-image.png",
         width: 1080,
         height: 720,
         alt: "BLING",
