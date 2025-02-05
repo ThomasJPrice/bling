@@ -11,6 +11,8 @@ export const metadata = {
     locale: "en_IE",
     url: "https://www.blingclub.co.uk",
     site_name: "BLING",
+    title: "BLING Club",
+    description: "Take on exciting fitness challenges, track your progress with Strava, and earn exclusive medals for your achievements. Start your journey today!",
     images: [
       {
         url: "https://bling.run/hero-image.png",
