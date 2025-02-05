@@ -5,7 +5,21 @@ import Script from "next/script";
 
 export const metadata = {
   title: "BLING",
-  description: "Take on exciting fitness challenges, track your progress with Strava, and earn exclusive medals for your achievements. Start your journey today!"
+  description: "Take on exciting fitness challenges, track your progress with Strava, and earn exclusive medals for your achievements. Start your journey today!",
+  openGraph: {
+    type: "website",
+    locale: "en_IE",
+    url: "https://www.blingclub.co.uk",
+    site_name: "BLING",
+    images: [
+      {
+        url: "https://bling.run/hero-image.png",
+        width: 1080,
+        height: 720,
+        alt: "BLING",
+      },
+    ],
+  }
 };
 
 const satoshi = localFont({
